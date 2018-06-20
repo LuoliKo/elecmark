@@ -1,6 +1,8 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { isWorkspaceExisted } from '../storage/storage'
+import { regularWinOptions, chooseWorkspaceWinOptions } from '../common/js/window-options'
 
 /**
  * Set `__static` path to static files in production
@@ -15,24 +17,32 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
-function createWindow () {
+function createWindow (options) {
   /**
    * Initial window options
    */
-  mainWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000
-  })
+  mainWindow = new BrowserWindow(options)
 
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  ipcMain.on('workspace-check', (event) => {
+    event.returnValue = options.name === 'chooseWin'
+  })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  isWorkspaceExisted().then((flag) => {
+    if (flag) {
+      createWindow(regularWinOptions)
+    } else {
+      createWindow(chooseWorkspaceWinOptions)
+    }
+  })
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
