@@ -1,8 +1,8 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
-import { isWorkspaceExisted } from '../storage/storage'
-import { regularWinOptions, chooseWorkspaceWinOptions } from '../common/js/window-options'
+import { app, BrowserWindow } from 'electron'
+// import { isWorkspaceExisted } from '../storage/storage'
+import { regularWinOptions } from '../common/js/window-options'
 
 /**
  * Set `__static` path to static files in production
@@ -28,20 +28,20 @@ function createWindow (options) {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-
-  ipcMain.on('workspace-check', (event) => {
-    event.returnValue = options.name === 'chooseWin'
-  })
+  //
+  // ipcMain.on('workspace-check', (event) => {
+  //   event.returnValue = options.name === 'chooseWin'
+  // })
 }
 
 app.on('ready', () => {
-  isWorkspaceExisted().then((flag) => {
-    if (flag) {
-      createWindow(regularWinOptions)
-    } else {
-      createWindow(chooseWorkspaceWinOptions)
-    }
-  })
+  // isWorkspaceExisted().then((flag) => {
+  //   if (flag) {
+  createWindow(regularWinOptions)
+  // } else {
+  //   createWindow(chooseWorkspaceWinOptions)
+  // }
+  // })
 })
 
 app.on('window-all-closed', () => {

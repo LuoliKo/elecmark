@@ -10,6 +10,8 @@
   }
 </script>
 
-<style>
+<style lang="stylus">
     /* CSS */
+    #app
+        font-size: 0
 </style>
