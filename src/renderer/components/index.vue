@@ -1,19 +1,47 @@
 <template>
     <div class="index">
         <div class="left-bar">
-
+            <div class="avatar-wrapper">
+                <img :src="defaultAvatar">
+            </div>
+            <div class="tool-bar">
+                <div title="new article" class="new-article-btn">
+                    <i class="iconfont icon-androidadd"></i>
+                </div>
+                <ul>
+                    <li title="blog information"><i class="iconfont icon-androidlist"></i></li>
+                    <li title="clean"><i class="iconfont icon-androidsync"></i></li>
+                    <li title="generate"><i class="iconfont icon-androidlocate"></i></li>
+                    <li title="run dev"><i class="iconfont icon-androidglobe"></i></li>
+                    <li title="deploy"><i class="iconfont icon-androidcloud"></i></li>
+                </ul>
+            </div>
+            <div class="tool-bar bottom-bar">
+                <ul>
+                    <li title="setting"><i class="iconfont icon-androidsettings"></i></li>
+                </ul>
+            </div>
         </div>
         <div class="main">
-            <div class="top-bar">
-
+            <div class="top-bar" @click.prevent="check">
+                <ul class="edit-file-list">
+                    <li></li>
+                </ul>
+                <ul class="win-control">
+                    <li @click.stop="miniSize"><i class="iconfont icon-androidmorehorizontal"></i></li>
+                    <li @click.stop="toggleFullScreen"><i class="iconfont icon-androidexpand"></i></li>
+                    <li @click.stop="appClose"><i class="iconfont icon-androidclose"></i></li>
+                </ul>
             </div>
-            <mavon-editor class="editor"
-                          v-model="value"
-                          :toolbars="toolbars"
-                          :boxShadow="false">
-            </mavon-editor>
+            <div class="main-content">
+                <mavon-editor class="editor"
+                              v-model="value"
+                              :toolbars="toolbars"
+                              :boxShadow="false">
+                </mavon-editor>
+                <div class="right-bar"></div>
+            </div>
         </div>
-        <div class="right-bar"></div>
     </div>
 </template>
 
@@ -21,13 +49,31 @@
   import { mavonEditor } from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
   import { toolbars } from '../common/js/toolbars-options'
+  import defaultAvatar from './default-avatar.jpg'
+  import { ipcRenderer } from 'electron'
 
   export default {
     name: 'editor',
     data () {
       return {
         value: '',
-        toolbars: toolbars
+        toolbars: toolbars,
+        defaultAvatar,
+        isFullScreen: false
+      }
+    },
+    methods: {
+      check () {
+        console.log(1)
+      },
+      miniSize () {
+        ipcRenderer.send('window-miniSize')
+      },
+      toggleFullScreen () {
+        ipcRenderer.send('window-toggle-full-screen', !this.isFullScreen)
+      },
+      appClose () {
+        ipcRenderer.send('window-close')
       }
     },
     components: {
@@ -38,24 +84,89 @@
 
 <style lang="stylus">
     .index
-        position: absolute
-        left: 0
-        top: 0
-        bottom: 0
-        right: 0
         display: flex
+        width: 100%
+        height: 100%
+        overflow: hidden
         .left-bar
-            flex: 0 0 20px
+            position: relative
+            flex: 0 0 80px
+            background: #484a4a
+            .avatar-wrapper
+                margin: 20px auto
+                width: 60px
+                height: 60px
+                box-sizing: border-box
+                border-radius: 10px
+                overflow: hidden
+                border-radius: 10px
+                img
+                    width: 100%
+                    height: 100%
+            .tool-bar
+                width: 100%
+                text-align: center
+                color: #fff
+                &.bottom-bar
+                    position: absolute
+                    bottom: 0
+                    left: 0
+                .new-article-btn
+                    position: relative
+                    margin: 10px auto
+                    padding: 8px
+                    width: 35px
+                    height: 35px
+                    border-radius: 50%
+                    background: #6b6868
+                    line-height: 35px
+                    cursor: pointer
+                    &:hover
+                        background: #fff
+                        color: #ffb72a
+                ul
+                    margin-top: 20px
+                    -webkit-padding-start: 0;
+                    li
+                        display: block
+                        padding: 10px
+                        cursor: pointer
+                        &:hover
+                            background: #6b6868
+                .iconfont
+                    font-size: 20px !important
         .main
             display: flex
             flex-direction: column
-            flex: 1
+            flex: 1 1 auto
+            width: 0px
             .top-bar
                 flex: 0 0 40px
                 border-left: 1px solid #e0e0e0
                 border-right: 1px solid #e0e0e0
-            .editor
+                color: #999
+                -webkit-app-region: drag
+                ul.win-control
+                    float: right
+                    -webkit-padding-start: 0
+                    li
+                        display: inline-block
+                        height: 40px
+                        padding: 0 12px
+                        line-height: 40px
+                        vertical-align: top
+                        cursor: pointer
+                        -webkit-app-region: no-drag
+                        &:hover
+                            background: #e0e0e0
+                        .iconfont
+                            font-size: 20px
+            .main-content
+                display: flex
                 flex: 1
-        .right-bar
-            flex: 0 0 20px
+                .editor
+                    flex: 1
+                .right-bar
+                    flex: 0 0 20px
+                    border-top: 1px solid #e0e0e0
 </style>

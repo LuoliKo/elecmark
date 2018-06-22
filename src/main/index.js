@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 // import { isWorkspaceExisted } from '../storage/storage'
 import { regularWinOptions } from '../common/js/window-options'
 
@@ -28,20 +28,26 @@ function createWindow (options) {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-  //
-  // ipcMain.on('workspace-check', (event) => {
-  //   event.returnValue = options.name === 'chooseWin'
-  // })
+
+  ipcMain.on('window-miniSize', () => {
+    mainWindow.minimize()
+  })
+
+  ipcMain.on('window-toggle-full-screen', () => {
+    if (mainWindow.isFullScreen()) {
+      mainWindow.setFullScreen(false)
+    } else {
+      mainWindow.setFullScreen(true)
+    }
+  })
+
+  ipcMain.on('window-close', () => {
+    app.quit()
+  })
 }
 
 app.on('ready', () => {
-  // isWorkspaceExisted().then((flag) => {
-  //   if (flag) {
   createWindow(regularWinOptions)
-  // } else {
-  //   createWindow(chooseWorkspaceWinOptions)
-  // }
-  // })
 })
 
 app.on('window-all-closed', () => {

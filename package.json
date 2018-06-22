@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "electron-drag": "^1.2.0",
     "electron-json-storage": "^4.1.0",
     "mavon-editor": "^2.6.9",
     "vue": "^2.3.3",
