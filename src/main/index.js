@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 // import { isWorkspaceExisted } from '../storage/storage'
 import { regularWinOptions } from '../common/js/window-options'
 
@@ -27,22 +27,6 @@ function createWindow (options) {
 
   mainWindow.on('closed', () => {
     mainWindow = null
-  })
-
-  ipcMain.on('window-miniSize', () => {
-    mainWindow.minimize()
-  })
-
-  ipcMain.on('window-toggle-full-screen', () => {
-    if (mainWindow.isFullScreen()) {
-      mainWindow.setFullScreen(false)
-    } else {
-      mainWindow.setFullScreen(true)
-    }
-  })
-
-  ipcMain.on('window-close', () => {
-    app.quit()
   })
 }
 

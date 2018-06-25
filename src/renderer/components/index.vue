@@ -23,14 +23,9 @@
             </div>
         </div>
         <div class="main">
-            <div class="top-bar" @click.prevent="check">
+            <div id="electron-titlebar" class="inset drag top-bar">
                 <ul class="edit-file-list">
                     <li></li>
-                </ul>
-                <ul class="win-control">
-                    <li @click.stop="miniSize"><i class="iconfont icon-androidmorehorizontal"></i></li>
-                    <li @click.stop="toggleFullScreen"><i class="iconfont icon-androidexpand"></i></li>
-                    <li @click.stop="appClose"><i class="iconfont icon-androidclose"></i></li>
                 </ul>
             </div>
             <div class="main-content">
@@ -50,7 +45,7 @@
   import 'mavon-editor/dist/css/index.css'
   import { toolbars } from '../common/js/toolbars-options'
   import defaultAvatar from './default-avatar.jpg'
-  import { ipcRenderer } from 'electron'
+  import 'electron-titlebar'
 
   export default {
     name: 'editor',
@@ -58,24 +53,10 @@
       return {
         value: '',
         toolbars: toolbars,
-        defaultAvatar,
-        isFullScreen: false
+        defaultAvatar
       }
     },
-    methods: {
-      check () {
-        console.log(1)
-      },
-      miniSize () {
-        ipcRenderer.send('window-miniSize')
-      },
-      toggleFullScreen () {
-        ipcRenderer.send('window-toggle-full-screen', !this.isFullScreen)
-      },
-      appClose () {
-        ipcRenderer.send('window-close')
-      }
-    },
+    methods: {},
     components: {
       mavonEditor
     }
@@ -145,22 +126,6 @@
                 border-left: 1px solid #e0e0e0
                 border-right: 1px solid #e0e0e0
                 color: #999
-                -webkit-app-region: drag
-                ul.win-control
-                    float: right
-                    -webkit-padding-start: 0
-                    li
-                        display: inline-block
-                        height: 40px
-                        padding: 0 12px
-                        line-height: 40px
-                        vertical-align: top
-                        cursor: pointer
-                        -webkit-app-region: no-drag
-                        &:hover
-                            background: #e0e0e0
-                        .iconfont
-                            font-size: 20px
             .main-content
                 display: flex
                 flex: 1
