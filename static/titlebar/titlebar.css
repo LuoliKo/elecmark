@@ -141,8 +141,11 @@ html[electron-titlebar-platform=win32] #electron-titlebar > .button-close:active
 }
 
 html[electron-titlebar-platform=win32] #electron-titlebar > .button img {
-    margin-top: 8.5px;
-    margin-left: 16.5px;
+    /*margin-top: 8.5px;*/
+    /*margin-left: 16.5px;*/
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
 }
 
 html[electron-titlebar-platform=win32] #electron-titlebar > .button-close.hover img, html[electron-titlebar-platform=win32] #electron-titlebar > .button-close:active img {

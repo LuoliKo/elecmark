@@ -1,41 +1,117 @@
 <template>
     <div class="index">
-        <div class="left-bar">
-            <div class="avatar-wrapper">
-                <img :src="defaultAvatar">
-            </div>
-            <div class="tool-bar">
-                <div title="new article" class="new-article-btn">
-                    <i class="iconfont icon-androidadd"></i>
-                </div>
-                <ul>
-                    <li title="blog information"><i class="iconfont icon-androidlist"></i></li>
-                    <li title="clean"><i class="iconfont icon-androidsync"></i></li>
-                    <li title="generate"><i class="iconfont icon-androidlocate"></i></li>
-                    <li title="run dev"><i class="iconfont icon-androidglobe"></i></li>
-                    <li title="deploy"><i class="iconfont icon-androidcloud"></i></li>
-                </ul>
-            </div>
-            <div class="tool-bar bottom-bar">
-                <ul>
-                    <li title="setting"><i class="iconfont icon-androidsettings"></i></li>
-                </ul>
-            </div>
+        <div class="left-content">
+            <ul class="article-list">
+                <li>
+                    <span class="title">环境搭建</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊时代发生的发是地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊速度发啊</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">环境啊第三方撒地方撒搭建</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">爱的色放</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">按时打撒</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊时代发生的发撒地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">阿什顿飞撒地方撒发生的发生地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">环境搭建</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊时代发生的发是地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊速度发啊</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">环境啊第三方撒地方撒搭建</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">爱的色放</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">按时打撒</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊时代发生的发撒地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">阿什顿飞撒地方撒发生的发生地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">环境搭建</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊时代发生的发是地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊速度发啊</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">环境啊第三方撒地方撒搭建</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">爱的色放</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">按时打撒</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">啊时代发生的发撒地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                <li>
+                    <span class="title">阿什顿飞撒地方撒发生的发生地方</span>
+                    <span class="date">{{new Date()}}</span>
+                </li>
+                s
+            </ul>
         </div>
-        <div class="main">
-            <div id="electron-titlebar" class="inset drag top-bar">
-                <ul class="edit-file-list">
-                    <li></li>
-                </ul>
-            </div>
-            <div class="main-content">
+        <div class="main-content">
+            <div class="top-bar drag"></div>
+            <div class="main">
                 <mavon-editor class="editor"
                               v-model="value"
+                              :toolbarsFlag="false"
                               :toolbars="toolbars"
                               :boxShadow="false">
                 </mavon-editor>
-                <div class="right-bar"></div>
             </div>
+            <div class="bottom-bar"></div>
         </div>
     </div>
 </template>
@@ -44,16 +120,13 @@
   import { mavonEditor } from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
   import { toolbars } from '../common/js/toolbars-options'
-  import defaultAvatar from './default-avatar.jpg'
-  import 'electron-titlebar'
 
   export default {
     name: 'editor',
     data () {
       return {
         value: '',
-        toolbars: toolbars,
-        defaultAvatar
+        toolbars: toolbars
       }
     },
     methods: {},
@@ -65,73 +138,59 @@
 
 <style lang="stylus">
     .index
+        position: absolute
         display: flex
         width: 100%
         height: 100%
         overflow: hidden
-        .left-bar
+        border-radius: 6px
+        .left-content
             position: relative
-            flex: 0 0 80px
-            background: #484a4a
-            .avatar-wrapper
-                margin: 20px auto
-                width: 60px
-                height: 60px
-                box-sizing: border-box
-                border-radius: 10px
-                overflow: hidden
-                border-radius: 10px
-                img
-                    width: 100%
-                    height: 100%
-            .tool-bar
-                width: 100%
-                text-align: center
-                color: #fff
-                &.bottom-bar
-                    position: absolute
-                    bottom: 0
-                    left: 0
-                .new-article-btn
-                    position: relative
-                    margin: 10px auto
-                    padding: 8px
-                    width: 35px
-                    height: 35px
-                    border-radius: 50%
-                    background: #6b6868
-                    line-height: 35px
+            flex: 0 0 300px
+            width: 0
+            background: rgba(255, 255, 255, .9)
+            overflow-y: auto
+            &::-webkit-scrollbar
+                width: 5px
+                background: rgba(225, 225, 225, .9)
+            &::-webkit-scrollbar-thumb
+                background: #bbb
+            ul.article-list
+                -webkit-padding-start: 0
+                li
+                    padding: 8px 20px
                     cursor: pointer
                     &:hover
-                        background: #fff
-                        color: #ffb72a
-                ul
-                    margin-top: 20px
-                    -webkit-padding-start: 0;
-                    li
+                        background: rgba(200, 200, 200, .9)
+                    span
                         display: block
-                        padding: 10px
-                        cursor: pointer
-                        &:hover
-                            background: #6b6868
-                .iconfont
-                    font-size: 20px !important
-        .main
+                        &.title
+                            color: #111
+                            font-size: 18px
+                            white-space: nowrap
+                            text-overflow: ellipsis
+                            overflow: hidden
+                        &.date
+                            color: #666
+                            font-size: 13px
+        .main-content
             display: flex
             flex-direction: column
-            flex: 1 1 auto
-            width: 0px
+            flex: 1
+            width: 0
+            background: #fff
             .top-bar
-                flex: 0 0 40px
-                border-left: 1px solid #e0e0e0
-                border-right: 1px solid #e0e0e0
-                color: #999
-            .main-content
-                display: flex
+                flex: 0 0 25px
+            .main
                 flex: 1
+                height: 0
                 .editor
-                    flex: 1
-                .right-bar
-                    flex: 0 0 20px
-                    border-top: 1px solid #e0e0e0
+                    width: 100%
+                    height: 100%
+            .bottom-bar
+                flex: 0 0 30px
+        .drag
+            -webkit-app-region: drag
+        .no-drag
+            -webkit-app-region: no-drag
 </style>

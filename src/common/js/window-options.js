@@ -1,13 +1,14 @@
 export const regularWinOptions = {
   name: 'regularWin',
-  width: 1500,
-  height: 800,
+  width: 1000,
+  height: 600,
   minWidth: 800,
   minHeight: 400,
   useContentSize: true,
   resizable: true,
   frame: false,
-  autoHideMenuBar: true
+  autoHideMenuBar: true,
+  transparent: true
 }
 
 export const chooseWorkspaceWinOptions = {
