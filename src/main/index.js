@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 // import { isWorkspaceExisted } from '../storage/storage'
 import { regularWinOptions } from '../common/js/window-options'
 
@@ -27,6 +27,14 @@ function createWindow (options) {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+  })
+
+  ipcMain.on('window-minimize', () => {
+    mainWindow.minimize()
+  })
+
+  ipcMain.on('window-close', () => {
+    app.quit()
   })
 }
 

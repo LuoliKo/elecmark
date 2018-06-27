@@ -1,9 +1,9 @@
 export const regularWinOptions = {
   name: 'regularWin',
-  width: 1000,
+  width: 850,
   height: 600,
-  minWidth: 800,
-  minHeight: 400,
+  minWidth: 850,
+  minHeight: 600,
   useContentSize: true,
   resizable: true,
   frame: false,

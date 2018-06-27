@@ -1,118 +1,20 @@
 <template>
     <div class="index">
-        <div class="left-content">
-            <ul class="article-list">
-                <li>
-                    <span class="title">环境搭建</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊时代发生的发是地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊速度发啊</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">环境啊第三方撒地方撒搭建</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">爱的色放</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">按时打撒</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊时代发生的发撒地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">阿什顿飞撒地方撒发生的发生地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">环境搭建</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊时代发生的发是地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊速度发啊</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">环境啊第三方撒地方撒搭建</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">爱的色放</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">按时打撒</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊时代发生的发撒地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">阿什顿飞撒地方撒发生的发生地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">环境搭建</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊时代发生的发是地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊速度发啊</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">环境啊第三方撒地方撒搭建</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">爱的色放</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">按时打撒</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">啊时代发生的发撒地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                <li>
-                    <span class="title">阿什顿飞撒地方撒发生的发生地方</span>
-                    <span class="date">{{new Date()}}</span>
-                </li>
-                s
+        <div class="top-bar drag">
+            <ul class="window-control-bar">
+                <li class="no-drag minimize" @click="minimize"><i class="iconfont icon-androidarrowdown"></i></li>
+                <li class="no-drag close" @click="close"><i class="iconfont icon-androidclose"></i></li>
             </ul>
         </div>
-        <div class="main-content">
-            <div class="top-bar drag"></div>
-            <div class="main">
-                <mavon-editor class="editor"
-                              v-model="value"
-                              :toolbarsFlag="false"
-                              :toolbars="toolbars"
-                              :boxShadow="false">
-                </mavon-editor>
-            </div>
-            <div class="bottom-bar"></div>
+        <div class="main">
+            <mavon-editor class="editor"
+                          v-model="value"
+                          :toolbarsFlag="false"
+                          :toolbars="toolbars"
+                          :boxShadow="false">
+            </mavon-editor>
         </div>
+        <div class="bottom-bar"></div>
     </div>
 </template>
 
@@ -120,6 +22,7 @@
   import { mavonEditor } from 'mavon-editor'
   import 'mavon-editor/dist/css/index.css'
   import { toolbars } from '../common/js/toolbars-options'
+  import { ipcRenderer } from 'electron'
 
   export default {
     name: 'editor',
@@ -129,7 +32,14 @@
         toolbars: toolbars
       }
     },
-    methods: {},
+    methods: {
+      minimize () {
+        ipcRenderer.send('window-minimize')
+      },
+      close () {
+        ipcRenderer.send('window-close')
+      }
+    },
     components: {
       mavonEditor
     }
@@ -140,55 +50,92 @@
     .index
         position: absolute
         display: flex
+        flex-direction: column
         width: 100%
         height: 100%
         overflow: hidden
         border-radius: 6px
-        .left-content
-            position: relative
-            flex: 0 0 300px
-            width: 0
-            background: rgba(255, 255, 255, .9)
-            overflow-y: auto
-            &::-webkit-scrollbar
-                width: 5px
-                background: rgba(225, 225, 225, .9)
-            &::-webkit-scrollbar-thumb
-                background: #bbb
-            ul.article-list
+        background: #fff
+        .top-bar
+            position: absolute
+            top: 0
+            left: 0
+            right: 0
+            height: 25px
+            z-index: 100000
+            .editing-file-list
+                display: flex
+                margin-right: 60px
+                height: 100%
                 -webkit-padding-start: 0
                 li
-                    padding: 8px 20px
+                    display: flex
+                    padding: 0 5px
+                    flex: 0 0 110px
+                    height: 25px
+                    line-height: 25px
+                    vertical-align: top
+                    border-right: 1px solid #e0e0e0
+                    -webkit-app-region: no-drag
+                    &.more-btn
+                        flex: 0 0 15px !important
+                        cursor: pointer
+                        &:hover
+                            background: #e0e0e0
+                        .iconfont
+                            font-size: 18px
+                    span
+                        display: inline-block
+                        &.file-name
+                            flex: 1
+                            width: 0px
+                            font-size: 14px
+                            white-space: nowrap
+                            overflow: hidden
+                            text-overflow: ellipsis
+                        &.close-icon
+                            padding-left: 5px
+                            flex: 0 0 15px
+                            height: 25px
+                            .iconfont
+                                font-size: 13px
+                                border-radius: 3px
+                                cursor: pointer
+                                &:hover
+                                    background: #ff851b
+                                    color: #fff
+            .window-control-bar
+                position: absolute
+                right: 8px
+                top: 5px
+                li
+                    display: inline-block
+                    margin: 0 3px
+                    width: 15px
+                    height: 15px
+                    border-radius: 50%
+                    vertical-align: top
+                    text-align: center
+                    line-height: 15px
                     cursor: pointer
                     &:hover
-                        background: rgba(200, 200, 200, .9)
-                    span
-                        display: block
-                        &.title
-                            color: #111
-                            font-size: 18px
-                            white-space: nowrap
-                            text-overflow: ellipsis
-                            overflow: hidden
-                        &.date
-                            color: #666
-                            font-size: 13px
-        .main-content
-            display: flex
-            flex-direction: column
+                        color: #fff !important
+                    &.minimize
+                        background: #ffba14
+                        color: #ffba14
+                    &.close
+                        background: #ff5347
+                        color: #ff5347
+                    .iconfont
+                        font-size: 12px
+        .main
             flex: 1
-            width: 0
-            background: #fff
-            .top-bar
-                flex: 0 0 25px
-            .main
-                flex: 1
-                height: 0
-                .editor
-                    width: 100%
-                    height: 100%
-            .bottom-bar
-                flex: 0 0 30px
+            height: 0
+            .editor
+                width: 100%
+                height: 100%
+        .bottom-bar
+            flex: 0 0 30px
         .drag
             -webkit-app-region: drag
         .no-drag
