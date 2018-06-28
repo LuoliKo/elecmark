@@ -3,6 +3,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 // import { isWorkspaceExisted } from '../storage/storage'
 import { regularWinOptions } from '../common/js/window-options'
+// import HexoShell from '../common/js/hexo-shell'
+import execa from 'execa'
 
 /**
  * Set `__static` path to static files in production
@@ -22,6 +24,7 @@ function createWindow (options) {
    * Initial window options
    */
   mainWindow = new BrowserWindow(options)
+  // hexoShell = new HexoShell()
 
   mainWindow.loadURL(winURL)
 
@@ -35,6 +38,18 @@ function createWindow (options) {
 
   ipcMain.on('window-close', () => {
     app.quit()
+  })
+
+  ipcMain.on('new-article', (e, ...arg) => {
+    execa.shell(`hexo new ${arg[0]} "${arg[1]}"`, {cwd: 'F:\\blog-workspace\\blog'})
+      .then(result => {
+        e.sender.send('new-article-result', true)
+        console.log(result.stdout)
+      })
+      .catch(err => {
+        e.sender.send('new-article-result', false)
+        console.log(err)
+      })
   })
 }
 

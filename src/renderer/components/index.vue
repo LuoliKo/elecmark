@@ -1,6 +1,7 @@
 <template>
     <div class="index">
-        <div class="top-bar drag">
+        <input-modal></input-modal>
+        <div class="top-bar drag" :class="toolbarFlag?'right-corner':'drag-bar'">
             <ul class="window-control-bar">
                 <li class="no-drag minimize" @click="minimize"><i class="iconfont icon-androidarrowdown"></i></li>
                 <li class="no-drag close" @click="close"><i class="iconfont icon-androidclose"></i></li>
@@ -9,27 +10,26 @@
         <div class="main">
             <mavon-editor class="editor"
                           v-model="value"
-                          :toolbarsFlag="false"
+                          :toolbarsFlag="toolbarFlag"
                           :toolbars="toolbars"
                           :boxShadow="false">
             </mavon-editor>
         </div>
         <div class="bottom-bar">
             <ul class="bottom-left-bar">
-                <li><i class="iconfont icon-androidapps"></i></li>
-                <li><i class="iconfont icon-androidcalendar"></i></li>
+                <li title="calender"><i class="iconfont icon-androidcalendar"></i></li>
             </ul>
             <ul class="bottom-middle-bar">
-                <li><i class="iconfont icon-androidadd"></i></li>
-                <li><i class="iconfont icon-androiddelete"></i></li>
-                <li><i class="iconfont icon-androidsync"></i></li>
-                <li><i class="iconfont icon-androidglobe"></i></li>
-                <li><i class="iconfont icon-androidcloud"></i></li>
+                <li title="new" @click="newArticle"><i class="iconfont icon-androidadd"></i></li>
+                <li title="publish"><i class="iconfont icon-androidarrowup"></i></li>
+                <li title="clean"><i class="iconfont icon-androidsync"></i></li>
+                <li title="generate"><i class="iconfont icon-androidlocate"></i></li>
+                <li title="delete"><i class="iconfont icon-androiddelete"></i></li>
+                <li title="server"><i class="iconfont icon-androidglobe"></i></li>
+                <li title="deploy"><i class="iconfont icon-androidcloud"></i></li>
             </ul>
             <ul class="bottom-right-bar">
-                <li><i class="iconfont icon-androidoptions"></i></li>
-                <li><i class="iconfont icon-androiddesktop"></i></li>
-                <li><i class="iconfont icon-androidcreate"></i></li>
+                <li title="options"><i class="iconfont icon-androidoptions"></i></li>
             </ul>
         </div>
     </div>
@@ -40,14 +40,21 @@
   import 'mavon-editor/dist/css/index.css'
   import { toolbars } from '../common/js/toolbars-options'
   import { ipcRenderer } from 'electron'
+  import InputModal from './input-modal/input-modal.vue'
 
   export default {
     name: 'editor',
     data () {
       return {
         value: '',
-        toolbars: toolbars
+        toolbars: toolbars,
+        toolbarFlag: false
       }
+    },
+    created () {
+      ipcRenderer.on('new-article-result', (e, arg) => {
+        console.log(arg)
+      })
     },
     methods: {
       minimize () {
@@ -55,10 +62,14 @@
       },
       close () {
         ipcRenderer.send('window-close')
+      },
+      newArticle () {
+        ipcRenderer.send('new-article', 'post', 'newArticle')
       }
     },
     components: {
-      mavonEditor
+      mavonEditor,
+      InputModal
     }
   }
 </script>
@@ -78,10 +89,13 @@
         .top-bar
             position: absolute
             top: 0
-            left: 0
             right: 0
             height: 25px
-            z-index: 100000
+            z-index: 1000000
+            &.right-corner
+                width: 100px
+            &.drag-bar
+                left: 0
             .editing-file-list
                 display: flex
                 margin-right: 60px
@@ -160,11 +174,12 @@
             flex: 0 0 30px
             border-top: 1px solid #e0e0e0
             ul
+                -webkit-padding-start: 0
                 display: flex
+                padding: 0 5px
                 flex: 1
                 width: 0
                 height: 30px
-                -webkit-padding-start: 0
                 &.bottom-left-bar
                     flex-direction: row
                 &.bottom-right-bar
