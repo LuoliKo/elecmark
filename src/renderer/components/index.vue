@@ -14,7 +14,24 @@
                           :boxShadow="false">
             </mavon-editor>
         </div>
-        <div class="bottom-bar"></div>
+        <div class="bottom-bar">
+            <ul class="bottom-left-bar">
+                <li><i class="iconfont icon-androidapps"></i></li>
+                <li><i class="iconfont icon-androidcalendar"></i></li>
+            </ul>
+            <ul class="bottom-middle-bar">
+                <li><i class="iconfont icon-androidadd"></i></li>
+                <li><i class="iconfont icon-androiddelete"></i></li>
+                <li><i class="iconfont icon-androidsync"></i></li>
+                <li><i class="iconfont icon-androidglobe"></i></li>
+                <li><i class="iconfont icon-androidcloud"></i></li>
+            </ul>
+            <ul class="bottom-right-bar">
+                <li><i class="iconfont icon-androidoptions"></i></li>
+                <li><i class="iconfont icon-androiddesktop"></i></li>
+                <li><i class="iconfont icon-androidcreate"></i></li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -54,7 +71,9 @@
         width: 100%
         height: 100%
         overflow: hidden
+        border: 1px solid #e0e0e0
         border-radius: 6px
+        box-sizing: border-box
         background: #fff
         .top-bar
             position: absolute
@@ -134,8 +153,33 @@
             .editor
                 width: 100%
                 height: 100%
+                *
+                    border: none !important
         .bottom-bar
+            display: flex
             flex: 0 0 30px
+            border-top: 1px solid #e0e0e0
+            ul
+                display: flex
+                flex: 1
+                width: 0
+                height: 30px
+                -webkit-padding-start: 0
+                &.bottom-left-bar
+                    flex-direction: row
+                &.bottom-right-bar
+                    flex-direction: row-reverse
+                &.bottom-middle-bar
+                    justify-content: center
+                li
+                    padding: 0 2px
+                    line-height: 30px
+                    color: #b2b8a6
+                    cursor: pointer
+                    &:hover
+                        color: #333
+                    .iconfont
+                        font-size: 20px
         .drag
             -webkit-app-region: drag
         .no-drag
